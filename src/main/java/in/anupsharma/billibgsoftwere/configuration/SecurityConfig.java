@@ -46,7 +46,11 @@ public class SecurityConfig {
 
         config.addAllowedOriginPattern(frontendUrl);
         config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","PATCH","OPTIONS"));
-        config.setAllowedHeaders(List.of("Authorization","Content-Type"));
+        config.setAllowedHeaders(List.of( "Authorization", 
+        "Content-Type",
+        "Accept",
+        "Access-Control-Request-Headers",
+        "Access-Control-Request-Method"));
         config.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source= new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**",config);
