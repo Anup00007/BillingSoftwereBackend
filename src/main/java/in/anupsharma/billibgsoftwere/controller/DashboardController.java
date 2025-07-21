@@ -13,14 +13,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/dashboard")
 @RequiredArgsConstructor
+@RequestMapping("/dashboard")
+
 public class DashboardController {
 
     private  final OrderService orderService;
+    
 @GetMapping
-
-    public DashboardResponse getDashboardDate(){
+  public DashboardResponse getDashboardDate(){
   LocalDate today=LocalDate.now();
  Double todaySale=orderService.sumSalesByDate(today);
 Long todayorderCount= orderService.countByOrderDate(today);
