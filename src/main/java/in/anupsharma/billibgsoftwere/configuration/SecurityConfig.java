@@ -1,4 +1,3 @@
-
 package in.anupsharma.billibgsoftwere.configuration;
 
 import in.anupsharma.billibgsoftwere.filters.JwtRequestFilter;
@@ -32,7 +31,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfig {
-
     private final AppUserDetailsService appUserDetailsService;
     private final JwtRequestFilter jwtRequestFilter;
 
@@ -46,12 +44,10 @@ public class SecurityConfig {
 
     private UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOriginPattern(*);
+        config.addAllowedOriginPattern(frontendUrl); // e.g. http://localhost:5173 or *
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         config.setAllowCredentials(true);
-        config.setExposedHeaders(List.of("Authorization")); // Optional but helps with client-side headers
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
@@ -59,11 +55,17 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors(Customizer.withDefaults())
+        http
+            .cors(Customizer.withDefaults())
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/encode", "/orders/**", "/payments/**").permitAll()
-                .requestMatchers("/dashboard").authenticated()
+                .requestMatchers(
+                    "/login",
+                    "/encode",
+                    "/dashboard",
+                    "/orders/latest",  // 👈 Added this to permit access
+                    "/payments"
+                ).permitAll()
                 .requestMatchers("/categories", "/items").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
