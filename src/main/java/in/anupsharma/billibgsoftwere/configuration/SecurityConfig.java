@@ -42,17 +42,15 @@ public class SecurityConfig {
     }
 
    private UrlBasedCorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration config = new CorsConfiguration();
-    config.setAllowCredentials(true);
-    config.addAllowedOrigin(frontendUrl); // or config.addAllowedOriginPattern(frontendUrl);
-    config.addAllowedHeader("*"); // allow all headers
-    config.addAllowedMethod("*"); // allow all HTTP methods
-    config.addExposedHeader("Authorization");
+        CorsConfiguration config = new CorsConfiguration();
 
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", config);
-    return source;
-}
+        config.addAllowedOriginPattern(frontendUrl);
+        config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","PATCH","OPTIONS"));
+        config.setAllowedHeaders(List.of("Authorization","Content-Type"));
+        config.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source= new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**",config);
+        return source;
 
 
     }
