@@ -44,7 +44,7 @@ public class SecurityConfig {
     private UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedOriginPattern(frontendUrl); // ✅ fixed here
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS","/orders/latest"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         config.setAllowCredentials(true);
 
@@ -58,7 +58,7 @@ public class SecurityConfig {
         http.cors(Customizer.withDefaults())
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/encode", "/orders", "/payments", "/dashboard").permitAll()
+                .requestMatchers("/login", "/encode", "/orders", "/payments", "/dashboard","/orders/latest").permitAll()
                 .requestMatchers("/categories", "/items").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
