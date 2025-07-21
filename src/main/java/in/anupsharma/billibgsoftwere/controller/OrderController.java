@@ -24,7 +24,7 @@ public class OrderController {
     public  void deleteOrder( @PathVariable String orderId){
         orderService.deleteOrder(orderId);
     }
-    @GetMapping
+    @GetMapping("/latest")
     public List<OrderResponse> getLatestOrders(){
         return orderService.getLatestOrders();
     }
