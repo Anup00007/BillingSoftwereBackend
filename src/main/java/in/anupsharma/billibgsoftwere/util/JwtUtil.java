@@ -15,8 +15,7 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil {
-    @Value("${jwt.secret.key}")
-    private String SECRET_KEY;
+  private final String SECRET_KEY = "123456789012345655555557765432233579";
 
     public String generateToken(UserDetails userDetails)
     {
@@ -29,7 +28,7 @@ public class JwtUtil {
         return Jwts.builder().setClaims(claiams).
                    setSubject(subject).
                    setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+1000*60*60*24*7))
+                .setExpiration(new Date(System.currentTimeMillis()+1000*60*60*10))
                 .signWith(SignatureAlgorithm.HS256,SECRET_KEY).compact();
     }
     public String extractUsername(String token){
