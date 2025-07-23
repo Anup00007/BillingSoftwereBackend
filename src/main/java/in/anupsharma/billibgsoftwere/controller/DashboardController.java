@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("admin/dashboard")
+@RequestMapping("/admin/dashboard")
 
 public class DashboardController {
 
